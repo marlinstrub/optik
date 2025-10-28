@@ -67,14 +67,14 @@ impl KinematicChain {
                 match joint.typ {
                     JointType::Fixed => {
                         // Accumulate the transforms from successive fixed joints.
-                        (joints, joint.origin * collapsed_tfm)
+                        (joints, collapsed_tfm * joint.origin)
                     }
                     _ => {
                         // When we encounter an articulated joint, apply the
                         // accumulated fixed joint transforms (if any) and then
                         // reset the accumulation.
                         let new_joint = Joint {
-                            origin: joint.origin * collapsed_tfm,
+                            origin: collapsed_tfm * joint.origin,
                             ..joint
                         };
                         joints.push(new_joint);
